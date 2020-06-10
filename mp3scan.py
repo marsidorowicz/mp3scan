@@ -4,6 +4,12 @@ import id3reader_p3 as id3
 
 
 def find_file_name(root, filename=None, start=None, ext=None):
+    """ Read from root directory
+    root is mandatory, specify relative path or absolute path
+    filename not required and gives ability to search files with specified name, using * before, after or both.
+    start not required, gives ability to search in specified folder name
+    ext not required, gives ability to search for files with specified extension
+    """
     if filename:
         if start:
             for path, directories, files in os.walk(root):
@@ -46,12 +52,13 @@ def find_file_name(root, filename=None, start=None, ext=None):
                         yield os.path.abspath(path) + "\\" + file
 
 
-file_list = find_file_name("Polskie",  ext=".mp3")
+file_list = find_file_name("E:\Programowanie\Tim Buchalka\Kurs 3\Polskie",  ext=".mp3")
 
 
 def get_tag(filelist):
+    """ Read filelist and return mp3 tags, pass None if not specified tag is found"""
     errors = []
-    for f in file_list:
+    for f in filelist:
         try:
             id3r = id3.Reader(f)
             print("Artist: {}, Album: {}, Track: {}, Song: {}".format(
